@@ -1,2 +1,4 @@
-
-<%= @topic.title %>
+<h5>Topic</h5>
+<%= link to: topic_path(@conn, :edit, @topic) do %>
+  <%= @topic.title %>
+<% end %>
