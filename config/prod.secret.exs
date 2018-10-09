@@ -17,5 +17,4 @@ config :discuss, Discuss.Repo,
   password: System.get_env("DATABASE_PASSWORD"),
   database: "discuss_prod",
   url: System.get_env("DATABASE_URL"),
-  pool_size: 15,
-  ssl: true
+  pool_size: 15
