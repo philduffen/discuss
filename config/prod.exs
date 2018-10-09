@@ -14,6 +14,7 @@ use Mix.Config
 config :discuss, Discuss.Endpoint,
   https: [:inet6, port: {:system, "PORT"}],
   url: [host: "vast-plateau-43862.herokuapp.com", port: 443],
+  force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json",
   secret_key_base: System.get_env("SECRET_KEY_BASE")
 
