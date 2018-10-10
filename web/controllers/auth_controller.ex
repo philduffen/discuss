@@ -8,17 +8,31 @@ defmodule Discuss.AuthController do
     user_params = %{
       token: auth.credentials.token,
       email: auth.info.email,
-      provider: auth.provider
+      provider: "Github"
     }
 
     changeset = User.changeset(%User{}, user_params)
-    insert_or_update_user(changeset)
+
+    signin(conn, changeset)
+  end
+
+  defp signin(conn, changeset) do
+    case insert_or_update_user(changeset) do
+      {:ok, user} ->
+        conn
+        |> put_flash(:info, "Welcome #{user.email}")
+        |> put_session(:user_id, user.id)
+        |> redirect(to: topic_path(conn, :index))
+
+      {:error, _reason} ->
+        conn
+        |> put_flash(:error, "Error signing in")
+        |> redirect(to: topic_path(conn, :index))
+    end
   end
 
   defp insert_or_update_user(changeset) do
-    Repo.get_by(User, changeset.changes.email)
-
-    case Repo.get_by(User, changeset.changes.email) do
+    case Repo.get_by(User, email: changeset.changes.email) do
       nil ->
         Repo.insert(changeset)
 
