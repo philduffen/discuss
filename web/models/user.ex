@@ -3,7 +3,7 @@ defmodule Discuss.User do
 
   schema "users" do
     field(:email, :string)
-    field(:provider, :sting)
+    field(:provider, :string)
     field(:token, :string)
 
     timestamps()
