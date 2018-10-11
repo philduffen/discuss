@@ -8,7 +8,7 @@ defmodule Discuss.AuthController do
     user_params = %{
       token: auth.credentials.token,
       email: auth.info.email,
-      provider: "Github"
+      provider: Atom.to_string(auth.provider)
     }
 
     changeset = User.changeset(%User{}, user_params)
@@ -20,7 +20,7 @@ defmodule Discuss.AuthController do
     case insert_or_update_user(changeset) do
       {:ok, user} ->
         conn
-        |> put_flash(:info, "Welcome #{user.email}")
+        |> put_flash(:info, "Welcome back #{user.email}!")
         |> put_session(:user_id, user.id)
         |> redirect(to: topic_path(conn, :index))
 
